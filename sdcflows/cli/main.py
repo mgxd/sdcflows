@@ -174,9 +174,12 @@ def main(argv=None):
     if _pool:
         from niworkflows.engine.plugin import MultiProcPlugin
 
+        if 'app_config' not in config.nipype.plugin_args:
+            config.nipype.plugin_args['app_config'] = config
+
         _plugin = {
             "plugin": MultiProcPlugin(
-                pool=_pool, plugin_args=config.nipype.plugin_args
+                pool=_pool, plugin_args=config.nipype.plugin_args,
             ),
         }
     sdcflows_wf.run(**_plugin)
